@@ -7,17 +7,27 @@ const MainWrap = styled.div`
     height : 50px;
     border-bottom : 1px solid #EDEFF1;
     display : flex;
-    justify-content : flex-end;
+    justify-content : space-between;
     align-items : center;
+`
+
+const LogoTitle = styled.span`
+    font-family : ${(props) => props.theme.defaultFont.LogoFont};
+    font-size : 24px;
 `
 
 const NavBar = () => {
     return (
         <MainWrap>
-            <SignUp/>
-            <div style={{marginRight :'20px'}}></div>
-            <LogIn/>
-            <div style={{marginRight :'100px'}}></div>
+            <div style={{marginLeft : '30px'}}>
+                <LogoTitle>COMPANY</LogoTitle>
+            </div>
+            <div style={{display: 'flex'}}>
+                <SignUp/>
+                <div style={{marginRight :'20px'}}></div>
+                <LogIn/>
+                <div style={{marginRight :'100px'}}></div>
+            </div>
         </MainWrap>
     )
 }

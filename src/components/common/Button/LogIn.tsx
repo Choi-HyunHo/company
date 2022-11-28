@@ -5,13 +5,17 @@ const Btn = styled.button`
     border : 1px solid #1484D6;
     border-radius : 30px;
     padding : 5px 30px;
+    cursor : pointer;
+
+    &:hover{
+        background-color : #0079D3;
+    }
 `
 
 const BtnText = styled.span`
-    display : inline-block;
-    text-align : center;
     color : #FFFFFF;
     font-weight : bold;
+    font-family: ${(props) => props.theme.defaultFont.TextFont};
 `
 
 

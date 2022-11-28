@@ -1,5 +1,7 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+import { Theme } from './style/theme';
 
 // page
 import Home from './pages/Home';
@@ -15,10 +17,11 @@ const router = createBrowserRouter([
 function App() {
 	return (
 		<React.Fragment>
-			<GlobalStyle/>
-			<RouterProvider router={router}/>
+			<ThemeProvider theme={Theme}>
+				<GlobalStyle/>
+				<RouterProvider router={router}/>
+			</ThemeProvider>
 		</React.Fragment>
-		
 	);
 }
 
