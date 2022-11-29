@@ -14,7 +14,6 @@ const MainWrap = styled.div`
 `
 
 const MainView = () => {
-
     return (
         <MainWrap>
             <Outlet/>

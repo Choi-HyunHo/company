@@ -83,14 +83,20 @@ const Login = () => {
 
                 <InputLabel>
                     Email Address
-                    <Input type='email'/>
+                    <Input 
+                        type='email'
+                        required
+                    />
                 </InputLabel>
 
                 <div style={{height : '10px'}}></div>
 
                 <InputLabel>
                     Password
-                    <Input type='password'/>
+                    <Input 
+                        type='password'
+                        required
+                    />
                 </InputLabel>
 
                 <SubmitBtn>

@@ -5,11 +5,13 @@ import { Theme } from './style/theme';
 import Home from './pages/Home';
 import { GlobalStyle } from './style/GlobalStyle';
 import Login from './pages/LogIn';
+import ErrorPage from './pages/ErrorPage';
 
 const router = createBrowserRouter([
 	{
 		path : '/',
 		element : <Home/>,
+		errorElement : <ErrorPage/>,
 		children : [
 			{ path : '/login', element : <Login/>}
 		]
