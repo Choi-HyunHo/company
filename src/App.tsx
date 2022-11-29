@@ -2,11 +2,8 @@ import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { Theme } from './style/theme';
-
-// page
 import Home from './pages/Home';
 import { GlobalStyle } from './style/GlobalStyle';
-// import Root from './router/Root';
 import Login from './pages/LogIn';
 
 const router = createBrowserRouter([
