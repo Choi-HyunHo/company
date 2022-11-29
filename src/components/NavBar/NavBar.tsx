@@ -1,6 +1,7 @@
 import styled from "styled-components";
-import LogIn from "../common/Button/LogIn";
 import SignUp from "../common/Button/SignUp";
+import Login from '../common/Button/LogIn';
+import { Link } from 'react-router-dom';
 
 const MainWrap = styled.div`
     width : 100%;
@@ -20,12 +21,14 @@ const NavBar = () => {
     return (
         <MainWrap>
             <div style={{marginLeft : '30px'}}>
-                <LogoTitle>COMPANY</LogoTitle>
+                <Link to='/'>
+                    <LogoTitle>COMPANY</LogoTitle>
+                </Link>
             </div>
             <div style={{display: 'flex'}}>
                 <SignUp/>
                 <div style={{marginRight :'20px'}}></div>
-                <LogIn/>
+                <Login/>
                 <div style={{marginRight :'100px'}}></div>
             </div>
         </MainWrap>
