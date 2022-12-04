@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from 'react-router-dom';
 
 const Btn = styled.button`
     background-color : inherit;
@@ -21,9 +22,11 @@ const BtnText = styled.span`
 
 const SignUp = () => {
     return (
-        <Btn>
-            <BtnText>Sign Up</BtnText>
-        </Btn>
+        <Link to='/signup'>
+            <Btn>
+                <BtnText>Sign Up</BtnText>
+            </Btn>
+        </Link>
     )
 }
 
