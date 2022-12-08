@@ -32,7 +32,7 @@ const LoginBox = styled.div`
 `
 
 const TitleWrap = styled.div`
-    margin-top : 100px;
+    margin-top : 30px;
     margin-bottom : 50px;
 `
 
@@ -74,6 +74,19 @@ const SubmitText = styled.span`
     color : #FFFFFF;
 `
 
+const RadioBox = styled.div`
+    width : 50%;
+    display : flex;
+    flex-direction : row;
+    justify-content : space-around;
+`
+
+const RadioInput = styled.input`
+    display : inline-block;
+    margin-right : 10px;
+    cursor : pointer;
+`
+
 const SignUp = () => {
 
     // 달력 상태 값
@@ -112,6 +125,8 @@ const SignUp = () => {
                     />
                 </InputLabel>
 
+                <div style={{height : '10px'}}></div>
+
                 <InputLabel>
                     User Name
                     <Input 
@@ -119,6 +134,8 @@ const SignUp = () => {
                         required
                     />
                 </InputLabel>
+
+                <div style={{height : '10px'}}></div>
 
         
                 <LocalizationProvider dateAdapter={AdapterMoment}>
@@ -132,6 +149,21 @@ const SignUp = () => {
                     />
                     </StyledCalendar>
 	            </LocalizationProvider>
+
+                <div style={{height : '20px'}}></div>
+
+                <RadioBox>
+                    <div>
+                        <RadioInput type='radio' name="gender" value="man" checked/>
+                        <label>Man</label>
+                    </div>
+
+                    <div>
+                        <RadioInput type='radio' name="gender" id="women" />
+                        <label>Woman</label>
+                    </div>
+                </RadioBox>
+
 
                 <SubmitBtn>
                     <SubmitText>Submit</SubmitText>
