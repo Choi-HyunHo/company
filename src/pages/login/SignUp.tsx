@@ -1,21 +1,11 @@
 import styled from "styled-components";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import TextField from '@mui/material/TextField';
-import React, {useState} from "react";
-
-
-const StyledCalendar = styled.div`
-    background: transparent;
-
-    & .MuiSvgIcon-root {
-        width : 90px;
-    }
-`;
-
+import React, {useEffect, useState} from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ko } from 'date-fns/esm/locale';
+import BlankStyle from "../../components/common/BlankStyle";
 
 const MainWrap = styled.div`
     width : 500px;
@@ -75,7 +65,7 @@ const SubmitText = styled.span`
 `
 
 const RadioBox = styled.div`
-    width : 50%;
+    width : 70%;
     display : flex;
     flex-direction : row;
     justify-content : space-around;
@@ -87,13 +77,25 @@ const RadioInput = styled.input`
     cursor : pointer;
 `
 
+const SDatePicker = styled(DatePicker)`
+    border : 1px solid #EDEFF1;
+    border-radius : 8px;
+    width : 300px;
+    height : 40px;
+    padding : 15px 10px;
+`
+
 const SignUp = () => {
 
     // 달력 상태 값
-    const [value, setValue] = useState();
-    const handleChange = (newValue : any) => {
-        setValue(newValue);
-    };
+    const [startDate, setStartDate] = useState<any>(new Date());
+
+    useEffect(()=>{
+        console.log(startDate.toISOString().slice(0,10))
+    },[startDate])
+
+    // radio 버튼 값
+    const [radioVal , setRadioVal] = useState<String>('0');
 
 
     return (
@@ -115,7 +117,7 @@ const SignUp = () => {
                     />
                 </InputLabel>
 
-                <div style={{height : '10px'}}></div>
+                <BlankStyle/>
 
                 <InputLabel>
                     Password
@@ -125,7 +127,7 @@ const SignUp = () => {
                     />
                 </InputLabel>
 
-                <div style={{height : '10px'}}></div>
+                <BlankStyle/>
 
                 <InputLabel>
                     User Name
@@ -135,32 +137,51 @@ const SignUp = () => {
                     />
                 </InputLabel>
 
-                <div style={{height : '10px'}}></div>
+                <BlankStyle/>
 
-        
-                <LocalizationProvider dateAdapter={AdapterMoment}>
-                    <StyledCalendar style={{marginTop : '15px'}}>
-                    <DesktopDatePicker
-                        label="Birth Day"
-                        inputFormat="MM/DD/YYYY"
-                        value={value}
-                        onChange={handleChange}
-                        renderInput={(params : any) => <TextField {...params} />}
-                    />
-                    </StyledCalendar>
-	            </LocalizationProvider>
+                <InputLabel>
+                    Birth Day
+                    <SDatePicker 
+                        selected={startDate} 
+                        onChange={(date) => setStartDate(date)} 
+                        locale={ko}
+                        dateFormat="yyyy/MM/dd"
+                    /> 
+                </InputLabel>
 
                 <div style={{height : '20px'}}></div>
 
-                <RadioBox>
-                    <div>
-                        <RadioInput type='radio' name="gender" value="man" checked/>
-                        <label>Man</label>
+                <RadioBox onChange={(e:React.ChangeEvent<HTMLInputElement>) => setRadioVal(e.target.value)}>
+                    <div style={{display : 'flex' , alignItems : 'center'}}>
+                        <RadioInput 
+                            type='radio' 
+                            name="gender" 
+                            value="1"
+                            checked={radioVal === "1"}
+                            readOnly
+                        />
+                        <InputLabel>Man</InputLabel>
                     </div>
 
-                    <div>
-                        <RadioInput type='radio' name="gender" id="women" />
-                        <label>Woman</label>
+                    <div style={{display : 'flex' , alignItems : 'center'}}>
+                        <RadioInput 
+                            type='radio' 
+                            name="gender" 
+                            value="2" 
+                            checked={radioVal === "2"}  
+                            readOnly
+                        />
+                        <InputLabel>Woman</InputLabel>
+                    </div>
+
+                    <div style={{display : 'flex' , alignItems : 'center'}}>
+                        <RadioInput 
+                            type='radio' 
+                            name="gender" 
+                            value='0' 
+                            defaultChecked 
+                        />
+                        <InputLabel>No Select</InputLabel>
                     </div>
                 </RadioBox>
 
