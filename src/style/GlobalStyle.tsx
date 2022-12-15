@@ -5,7 +5,14 @@ export const GlobalStyle = createGlobalStyle`
         box-sizing : border-box;
         padding : 0;
         margin : 0;
+        -ms-overflow-style: none;
+
+        ::-webkit-scrollbar {
+            display : none;
+        }
     }
+
+    
 
    /* Reset CSS */
     a{

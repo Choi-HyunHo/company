@@ -12,10 +12,12 @@ const MainWrap = styled.div`
     display : flex;
     justify-content : center;
     align-items : center;
+    overflow-y : scroll;
 `
 
 const MainView = () => {
     const location = useLocation();
+
 
     return (
         <MainWrap>

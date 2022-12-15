@@ -10,6 +10,7 @@ const MainWrap = styled.div`
     display : flex;
     justify-content : space-between;
     align-items : center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 `
 
 const LogoTitle = styled.span`
@@ -18,6 +19,7 @@ const LogoTitle = styled.span`
 `
 
 const NavBar = () => {
+
     return (
         <MainWrap>
             <div style={{marginLeft : '30px'}}>
