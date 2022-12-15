@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import BoardList from './Board/BoardList';
 
 const MainWrap = styled.div`
     width : calc(100vw - 270px);
@@ -14,9 +15,12 @@ const MainWrap = styled.div`
 `
 
 const MainView = () => {
+    const location = useLocation();
+
     return (
         <MainWrap>
             <Outlet/>
+            {location.pathname === '/' ? <BoardList/> : null}
         </MainWrap>
     )
 }

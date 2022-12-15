@@ -90,12 +90,16 @@ const SignUp = () => {
     // 달력 상태 값
     const [startDate, setStartDate] = useState<any>(new Date());
 
-    useEffect(()=>{
-        console.log(startDate.toISOString().slice(0,10))
-    },[startDate])
-
+    
     // radio 버튼 값
     const [radioVal , setRadioVal] = useState<String>('0');
+
+    useEffect(()=>{
+        // 추후에 확인 버튼누를때 아래 코드 작업하기
+        console.log(startDate.toISOString().slice(0,10).replace('-',''))
+        console.log(radioVal)
+    },[startDate, radioVal])
+
 
 
     return (

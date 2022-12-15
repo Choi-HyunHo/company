@@ -2,11 +2,16 @@ import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { Theme } from './style/theme';
-import Home from './pages/Home';
 import { GlobalStyle } from './style/GlobalStyle';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+// page
+import Home from './pages/Home';
 import Login from './pages/login/LogIn';
 import ErrorPage from './pages/ErrorPage';
 import SignUp from './pages/login/SignUp';
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
 	{
@@ -23,10 +28,12 @@ const router = createBrowserRouter([
 function App() {
 	return (
 		<React.Fragment>
-			<ThemeProvider theme={Theme}>
-				<GlobalStyle/>
-				<RouterProvider router={router}/>
-			</ThemeProvider>
+			<QueryClientProvider client={queryClient}>
+				<ThemeProvider theme={Theme}>
+					<GlobalStyle/>
+					<RouterProvider router={router}/>
+				</ThemeProvider>
+			</QueryClientProvider>
 		</React.Fragment>
 	);
 }
