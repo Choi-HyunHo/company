@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link } from 'react-router-dom';
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from 'date-fns/esm/locale';
@@ -109,7 +109,10 @@ const SignUp = () => {
     // checkbox 값 변환 -> api 이거 전달하기
     const [locationYn, setLocationYn] = useState<any>();
 
-    // console.log(startDate.toISOString().slice(0,10).replace('-',''))
+    // 유효성 focus
+    const userIdRef = useRef<HTMLInputElement>(null);
+    const pwdRef = useRef<HTMLInputElement>(null);
+
 
     useEffect(()=>{
         if(checked === false){
@@ -118,6 +121,13 @@ const SignUp = () => {
             setLocationYn(1);
         }
     },[checked, locationYn]) // eslint-disable-line no-unused-vars
+
+    // 이메일 검사: '@', '.' 이 둘다 포함될것.
+    let isValidEmail = userId && userId.includes('@') && userId.includes('.');
+    // 비밀번호 특수문자 검사를 위한 정규식표현.
+    let specialLetter = pwd && pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+    // 특수문자 1자 이상, 전체 8자 이상일것.    
+    let isValidPassword = pwd && specialLetter && pwd.length >= 8 && specialLetter >= 1;
 
 
     const handelSubmit = () => {
@@ -131,6 +141,11 @@ const SignUp = () => {
             accessTp : "Z",
             userType : "U"
         }
+
+        if(isValidEmail !== true){
+            console.log('유효')
+            userIdRef.current?.focus();
+        } 
 
         signUp(data).then((res)=>{
             console.log('성공');
@@ -154,6 +169,7 @@ const SignUp = () => {
                         type='email'
                         required
                         onChange={(e:React.ChangeEvent<HTMLInputElement>) => setUserId(e.target.value)}
+                        ref={userIdRef}
                     />
                 </InputLabel>
 
@@ -165,6 +181,7 @@ const SignUp = () => {
                         type='password'
                         required
                         onChange={(e:React.ChangeEvent<HTMLInputElement>) => setPwd(e.target.value)}
+                        ref={pwdRef}
                     />
                 </InputLabel>
 
