@@ -4,25 +4,45 @@ import React, {useEffect, useState} from 'react';
 import { getBoard } from './../../../api/board/board';
 
 const MainWrap = styled.div`
+    position : absolute;
+    top : 10px;
     display : flex;
     flex-direction : column;
     justify-content : space-around;
-    height : 100%;
-    margin-top : 30px;
 `
 
 const BoardContainer = styled.div`
     background-color : #FFFFFF;
     border-radius : 10px;
     width : 650px;
-    padding : 20px 10px;
     margin : 30px 0px;
 `
 
 const BoardInfoTop = styled.div`
+    width : 100%;
     display : flex;
     flex-direction : row;
-    justify-content : space-around;
+    justify-content : space-evenly;
+    padding : 10px 5px;
+`
+const BoardCategory = styled.div`
+    width : 300px;
+`
+
+const BoardSpan = styled.span`
+    font-family : ${(props) => props.theme.defaultFont.KoreaFont};
+`
+
+const BoardInfoBottom = styled.div`
+    padding : 0px 5px;
+` 
+
+const Line = styled.div`
+    width: 2px;
+    height: 11px;
+    background-color : #DAE0E6;
+    display : inline-block;
+    margin : 0px 10px;
 `
 
 const BoardList = () => {
@@ -45,14 +65,17 @@ const BoardList = () => {
             {board && board.map((i:any, index:any) => ( 
                 <BoardContainer key={index}>
                     <BoardInfoTop>
-                        <span>{i.boardName}</span>
-                        <span>{i.title}</span>
-                        <span>{i.regDt}</span>
+                        <BoardCategory>
+                            <BoardSpan>{i.boardName}</BoardSpan>
+                            <Line></Line>
+                            <BoardSpan>{i.title}</BoardSpan>
+                        </BoardCategory>
+                        <BoardSpan>{i.regDt.substr(0,10)}</BoardSpan>
                     </BoardInfoTop>
-                    <div>
-                        <span>{i.contents}</span>
-                        <span>{i.cmtCount}</span>
-                    </div>
+                    <BoardInfoBottom>
+                        <BoardSpan>{i.contents}</BoardSpan>
+                        <BoardSpan>{i.cmtCount}</BoardSpan>
+                    </BoardInfoBottom>
                 </BoardContainer>
             ))}
         </MainWrap>

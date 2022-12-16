@@ -5,6 +5,7 @@ declare module 'styled-components' {
         defaultFont : {
             LogoFont : string;
             TextFont : string;
+            KoreaFont : string;
         }
     }
 }

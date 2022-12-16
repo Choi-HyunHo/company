@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from 'date-fns/esm/locale';
 import BlankStyle from "../../components/common/BlankStyle";
+import { signUp } from "../../api/Login/login";
 
 const MainWrap = styled.div`
     width : 500px;
@@ -87,20 +88,54 @@ const SDatePicker = styled(DatePicker)`
 
 const SignUp = () => {
 
+    // 이메일 값
+    const [userId, setUserId] = useState<String>();
+
+    // 비밀번호 값
+    const [pwd, setPwd] = useState<String>();
+
+    // 닉네임 값
+    const [nickName, setNickName] = useState<String>();
+
     // 달력 상태 값
     const [startDate, setStartDate] = useState<any>(new Date());
 
-    
     // radio 버튼 값
     const [radioVal , setRadioVal] = useState<String>('0');
 
+    // checkbox 값
+    const [checked, setChecked] = useState<Boolean>(false);
+
+    // checkbox 값 변환 -> api 이거 전달하기
+    const [locationYn, setLocationYn] = useState<any>();
+
+    // console.log(startDate.toISOString().slice(0,10).replace('-',''))
+
     useEffect(()=>{
-        // 추후에 확인 버튼누를때 아래 코드 작업하기
-        console.log(startDate.toISOString().slice(0,10).replace('-',''))
-        console.log(radioVal)
-    },[startDate, radioVal])
+        if(checked === false){
+            setLocationYn(0);
+        } else {
+            setLocationYn(1);
+        }
+    },[checked, locationYn]) // eslint-disable-line no-unused-vars
 
 
+    const handelSubmit = () => {
+        let data = {
+            userId : userId,
+            pwd : pwd,
+            nickname : nickName,
+            gender : radioVal,
+            birthday : startDate.toISOString().slice(0,10).replace(/-/g,''),
+            locationYn : locationYn,
+            accessTp : "Z",
+            userType : "U"
+        }
+
+        signUp(data).then((res)=>{
+            console.log('성공');
+        })
+    }
 
     return (
         <MainWrap>
@@ -118,6 +153,7 @@ const SignUp = () => {
                     <Input 
                         type='email'
                         required
+                        onChange={(e:React.ChangeEvent<HTMLInputElement>) => setUserId(e.target.value)}
                     />
                 </InputLabel>
 
@@ -128,6 +164,7 @@ const SignUp = () => {
                     <Input 
                         type='password'
                         required
+                        onChange={(e:React.ChangeEvent<HTMLInputElement>) => setPwd(e.target.value)}
                     />
                 </InputLabel>
 
@@ -138,6 +175,7 @@ const SignUp = () => {
                     <Input 
                         type='text'
                         required
+                        onChange={(e:React.ChangeEvent<HTMLInputElement>) => setNickName(e.target.value)}
                     />
                 </InputLabel>
 
@@ -189,8 +227,15 @@ const SignUp = () => {
                     </div>
                 </RadioBox>
 
+                <BlankStyle/>
 
-                <SubmitBtn>
+                <div style={{display : 'flex'}}>
+                    <input id="agree" type='checkbox' value={checked === false ? 0 : 1} onChange={(e:React.ChangeEvent<HTMLInputElement>) => setChecked(!checked)}  />
+                    <InputLabel htmlFor="agree">위치 정보 동의</InputLabel>
+                </div>
+            
+
+                <SubmitBtn onClick={handelSubmit}>
                     <SubmitText>Submit</SubmitText>
                 </SubmitBtn>
             </LoginBox>
