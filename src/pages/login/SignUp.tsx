@@ -109,6 +109,10 @@ const SignUp = () => {
     // checkbox 값 변환 -> api 이거 전달하기
     const [locationYn, setLocationYn] = useState<any>();
 
+    // 유효성 메시지
+    const [idText, setIdText] = useState<String>('');
+    const [pwdText, setPwdText] = useState<String>('');
+
     // 유효성 focus
     const userIdRef = useRef<HTMLInputElement>(null);
     const pwdRef = useRef<HTMLInputElement>(null);
@@ -143,9 +147,16 @@ const SignUp = () => {
         }
 
         if(isValidEmail !== true){
-            console.log('유효')
+            setIdText('이메일 형식을 준수 해주세요')
             userIdRef.current?.focus();
-        } 
+        } else {
+            setIdText('');
+        }
+
+        if(isValidPassword !== true){
+            setPwdText('특수문자 1이상, 숫자 8개 이상 입력 해주세요')
+            pwdRef.current?.focus();
+        }
 
         signUp(data).then((res)=>{
             console.log('성공');
@@ -172,6 +183,7 @@ const SignUp = () => {
                         ref={userIdRef}
                     />
                 </InputLabel>
+                {isValidEmail !== true ? <span>{idText}</span> : null}
 
                 <BlankStyle/>
 
@@ -184,6 +196,8 @@ const SignUp = () => {
                         ref={pwdRef}
                     />
                 </InputLabel>
+
+                {isValidPassword !== true ? <span>{pwdText}</span> : null}
 
                 <BlankStyle/>
 
