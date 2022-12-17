@@ -86,6 +86,12 @@ const SDatePicker = styled(DatePicker)`
     padding : 15px 10px;
 `
 
+const ErrorText = styled.span`
+    margin-top : 8px;
+    font-size : 12px;
+    color : gray;
+`
+
 const SignUp = () => {
 
     // 이메일 값
@@ -116,6 +122,7 @@ const SignUp = () => {
     // 유효성 focus
     const userIdRef = useRef<HTMLInputElement>(null);
     const pwdRef = useRef<HTMLInputElement>(null);
+    const nameRef = useRef<HTMLInputElement>(null);
 
 
     useEffect(()=>{
@@ -154,8 +161,12 @@ const SignUp = () => {
         }
 
         if(isValidPassword !== true){
-            setPwdText('특수문자 1이상, 숫자 8개 이상 입력 해주세요')
+            setPwdText('특수문자 1이상, 8글자 이상 입력 해주세요')
             pwdRef.current?.focus();
+        }
+
+        if(nickName === '' || nickName && nickName.length < 2){
+            nameRef.current?.focus();
         }
 
         signUp(data).then((res)=>{
@@ -183,7 +194,7 @@ const SignUp = () => {
                         ref={userIdRef}
                     />
                 </InputLabel>
-                {isValidEmail !== true ? <span>{idText}</span> : null}
+                {isValidEmail !== true ? <ErrorText>{idText}</ErrorText> : null}
 
                 <BlankStyle/>
 
@@ -197,7 +208,7 @@ const SignUp = () => {
                     />
                 </InputLabel>
 
-                {isValidPassword !== true ? <span>{pwdText}</span> : null}
+                {isValidPassword !== true ? <ErrorText>{pwdText}</ErrorText> : null}
 
                 <BlankStyle/>
 
@@ -207,6 +218,7 @@ const SignUp = () => {
                         type='text'
                         required
                         onChange={(e:React.ChangeEvent<HTMLInputElement>) => setNickName(e.target.value)}
+                        ref={nameRef}
                     />
                 </InputLabel>
 
@@ -262,6 +274,7 @@ const SignUp = () => {
 
                 <div style={{display : 'flex'}}>
                     <input id="agree" type='checkbox' value={checked === false ? 0 : 1} onChange={(e:React.ChangeEvent<HTMLInputElement>) => setChecked(!checked)}  />
+                    <div style={{marginLeft : '20px'}}></div>
                     <InputLabel htmlFor="agree">위치 정보 동의</InputLabel>
                 </div>
             
