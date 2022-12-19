@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { ko } from 'date-fns/esm/locale';
 import BlankStyle from "../../components/common/BlankStyle";
 import { signUp } from "../../api/Login/login";
+import Modal from "../../components/common/Modal/Modal";
 
 const MainWrap = styled.div`
     width : 500px;
@@ -140,6 +141,12 @@ const SignUp = () => {
     // 특수문자 1자 이상, 전체 8자 이상일것.    
     let isValidPassword = pwd && specialLetter && pwd.length >= 8 && specialLetter >= 1;
 
+    // modal 여부
+    const [isOpen, setIsOpen] = useState(false);
+
+    const onClickButton = () => {
+        setIsOpen(true);
+    };
 
     const handelSubmit = () => {
         let data = {
@@ -165,13 +172,15 @@ const SignUp = () => {
             pwdRef.current?.focus();
         }
 
-        if(nickName === '' || nickName && nickName.length < 2){
+        if((nickName === '') || (nickName && nickName.length < 2)){
             nameRef.current?.focus();
         }
 
         signUp(data).then((res)=>{
             console.log('성공');
         })
+        
+        onClickButton();
     }
 
     return (
@@ -282,6 +291,7 @@ const SignUp = () => {
                 <SubmitBtn onClick={handelSubmit}>
                     <SubmitText>Submit</SubmitText>
                 </SubmitBtn>
+                {isOpen && <Modal open={isOpen} onClose={() => {setIsOpen(false)}}/>}
             </LoginBox>
 
             
