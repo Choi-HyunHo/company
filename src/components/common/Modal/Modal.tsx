@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from "react";
 import styled from "styled-components";
 import ModalContainer from "./ModalContainer";
-import useOutSideClick from "./useOutSideClick";
+import useOutSideClick from "../../../hooks/useOutSideClick";
 
 const Overlay = styled.div`
     position: fixed;
@@ -16,7 +16,7 @@ const Overlay = styled.div`
 `;
 
 const ModalWrap = styled.div`
-    width: 600px;
+    width: 300px;
     height: fit-content;
     border-radius: 15px;
     background-color: #fff;
@@ -76,7 +76,7 @@ const Modal = ({onClose}: any) => {
             <Overlay>
                 <ModalWrap ref={modalRef}>
                 <Contents onClick={handleClose}>
-                    <h1>This is a Modal Dialog</h1>
+                    <h1>회원가입 완료 🎉 </h1>
                     <Button onClick={handleClose}>Close</Button>
                 </Contents>
                 </ModalWrap>

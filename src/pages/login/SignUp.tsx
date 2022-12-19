@@ -24,7 +24,7 @@ const LoginBox = styled.div`
 `
 
 const TitleWrap = styled.div`
-    margin-top : 30px;
+    margin-top : 20px;
     margin-bottom : 50px;
 `
 
@@ -119,6 +119,7 @@ const SignUp = () => {
     // 유효성 메시지
     const [idText, setIdText] = useState<String>('');
     const [pwdText, setPwdText] = useState<String>('');
+    const [nameText, setNameText] = useState<String>('');
 
     // 유효성 focus
     const userIdRef = useRef<HTMLInputElement>(null);
@@ -135,11 +136,13 @@ const SignUp = () => {
     },[checked, locationYn]) // eslint-disable-line no-unused-vars
 
     // 이메일 검사: '@', '.' 이 둘다 포함될것.
-    let isValidEmail = userId && userId.includes('@') && userId.includes('.');
+    let isValidEmail = userId && userId.includes('@') && userId.includes('.') && userId.length <= 20;
     // 비밀번호 특수문자 검사를 위한 정규식표현.
     let specialLetter = pwd && pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
     // 특수문자 1자 이상, 전체 8자 이상일것.    
-    let isValidPassword = pwd && specialLetter && pwd.length >= 8 && specialLetter >= 1;
+    let isValidPassword = pwd && specialLetter && pwd.length >= 5 && pwd.length <= 15 && specialLetter >= 1;
+    // 닉네임 유효성 검사
+    let isValidName =  nickName && nickName === undefined ||  (nickName && nickName.length > 1 && nickName.length <= 5);
 
     // modal 여부
     const [isOpen, setIsOpen] = useState(false);
@@ -161,27 +164,33 @@ const SignUp = () => {
         }
 
         if(isValidEmail !== true){
-            setIdText('이메일 형식을 준수 해주세요')
+            setIdText('이메일 형식을 준수 및 20글자 이하')
             userIdRef.current?.focus();
         } else {
             setIdText('');
         }
 
         if(isValidPassword !== true){
-            setPwdText('특수문자 1이상, 8글자 이상 입력 해주세요')
+            setPwdText('특수문자 1이상, 5글자 ~ 15글자 입력 해주세요')
             pwdRef.current?.focus();
         }
 
-        if((nickName === '') || (nickName && nickName.length < 2)){
+        if(isValidName === false || isValidEmail === undefined){
+            setNameText('유저 이름은 필수 & 최소 2글자 ~ 5글자')
             nameRef.current?.focus();
         }
 
-        signUp(data).then((res)=>{
-            console.log('성공');
-        })
-        
-        onClickButton();
+        if(isValidEmail && isValidPassword && isValidName){
+            signUp(data).then((res)=>{
+                onClickButton();
+            })
+        } 
     }
+
+    useEffect(()=>{
+        console.log('isValidName', isValidName)
+        console.log('isValidEmail', isValidEmail)
+    },[isValidName])
 
     return (
         <MainWrap>
@@ -230,6 +239,8 @@ const SignUp = () => {
                         ref={nameRef}
                     />
                 </InputLabel>
+
+                {isValidName !== true || (isValidName === undefined) ? <ErrorText>{nameText}</ErrorText> : null}
 
                 <BlankStyle/>
 
