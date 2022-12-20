@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import React, {useState, useRef} from "react";
+import { login } from "../../api/Login/login";
 
 const MainWrap = styled.div`
     width : 500px;
@@ -69,7 +71,59 @@ const SignUpText = styled(SubmitText)`
     color : #1484D6;
 `
 
+const ErrorText = styled.span`
+    margin-top : 8px;
+    font-size : 12px;
+    color : gray;
+`
+
 const Login = () => {
+    const navigate = useNavigate();
+
+    const [userId, setUserId] = useState<String>('');
+    const [pwd, setPwd] = useState<String>('');
+
+    // 유효성 focus
+    const userIdRef = useRef<HTMLInputElement>(null);
+    const pwdRef = useRef<HTMLInputElement>(null);
+
+    // 유효성 메시지
+    const [idText, setIdText] = useState<String>('');
+    const [pwdText, setPwdText] = useState<String>('');
+
+    const handleClick = () => {
+        let data = {
+            userId : userId,
+            pwd: pwd,
+            accessTp: "Z"
+        }
+
+        if(isValidEmail !== true){
+            setIdText('이메일 형식을 준수 및 20글자 이하')
+            userIdRef.current?.focus();
+        }
+
+        if(isValidPassword !== true){
+            setPwdText('특수문자 1이상, 5글자 ~ 15글자 입력 해주세요')
+            pwdRef.current?.focus();
+        }
+
+
+        if(isValidEmail && isValidPassword){
+            login(data).then((res) => {
+                console.log(res)
+            })
+        }
+    }
+
+    // 이메일 검사: '@', '.' 이 둘다 포함될것.
+    let isValidEmail = userId && userId.includes('@') && userId.includes('.') && userId.length <= 20;
+    // 비밀번호 특수문자 검사를 위한 정규식표현.
+    let specialLetter = pwd && pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+    // 특수문자 1자 이상, 전체 8자 이상일것.    
+    let isValidPassword = pwd && specialLetter && pwd.length >= 5 && pwd.length <= 15 && specialLetter >= 1;
+
+
     return (
         <MainWrap>
             <Link to='/'>
@@ -86,8 +140,12 @@ const Login = () => {
                     <Input 
                         type='email'
                         required
+                        onChange={(e:React.ChangeEvent<HTMLInputElement>) => setUserId(e.target.value)}
+                        ref={userIdRef}
                     />
                 </InputLabel>
+
+                {isValidEmail !== true ? <ErrorText>{idText}</ErrorText> : null}
 
                 <div style={{height : '10px'}}></div>
 
@@ -96,14 +154,18 @@ const Login = () => {
                     <Input 
                         type='password'
                         required
+                        onChange={(e:React.ChangeEvent<HTMLInputElement>) => setPwd(e.target.value)}
+                        ref={pwdRef}
                     />
                 </InputLabel>
 
-                <SubmitBtn>
+                {isValidPassword !== true ? <ErrorText>{pwdText}</ErrorText> : null}
+
+                <SubmitBtn onClick={handleClick}>
                     <SubmitText>Submit</SubmitText>
                 </SubmitBtn>
 
-                <SignUpBtn>
+                <SignUpBtn onClick={() => navigate('/signup')}>
                     <SignUpText>Sign Up</SignUpText>
                 </SignUpBtn>
             </LoginBox>
