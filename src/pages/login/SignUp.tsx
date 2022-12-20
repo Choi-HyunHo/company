@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import React, {useEffect, useState, useRef} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -94,8 +94,6 @@ const ErrorText = styled.span`
 `
 
 const SignUp = () => {
-    const navigate = useNavigate();
-
     // 이메일 값
     const [userId, setUserId] = useState<String>();
 
