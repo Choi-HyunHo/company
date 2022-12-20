@@ -114,6 +114,7 @@ const Login = () => {
             accessTp: "Z"
         }
 
+        
 
         if(isValidEmail !== true){
             setIdText('이메일 형식을 준수 및 20글자 이하')
@@ -131,13 +132,16 @@ const Login = () => {
                 setUid(res.data.data[0].uid)
                 setModalMessage(res && res.data.message);
                 onClickButton();
-                getMyPage().then((res) => console.log(res))
             })
         }
+        
     }
 
     useEffect(()=>{
         setCookie('uid', {uid : uid}, {path : '/'});
+        if(uid && uid > 0){
+            getMyPage(cookies).then((res) => console.log(res))
+        }
     },[uid]) // eslint-disable-line react-hooks/exhaustive-deps
     
 

@@ -31,7 +31,7 @@ export const login = async(data : any) => {
                 'Authorization': 'Basic cm96ZXVzOnJvemV1czEyMyE=',
                 "Access-Control-Allow-Origin": "*",
                 "Content-Type": "application/json",
-            }
+            },
         }
     )
         .then((response) => {
