@@ -3,6 +3,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link, useNavigate } from 'react-router-dom';
 import React, {useState, useRef} from "react";
 import { login } from "../../api/Login/login";
+import Modal from "../../components/common/Modal/Modal";
+import { useCookies } from "react-cookie";
 
 const MainWrap = styled.div`
     width : 500px;
@@ -91,12 +93,26 @@ const Login = () => {
     const [idText, setIdText] = useState<String>('');
     const [pwdText, setPwdText] = useState<String>('');
 
+    // modal 여부
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState<String>('');
+
+    // 쿠키
+    const [cookies, setCookie, removeCookie] = useCookies(['userInfo'])
+    const [uid, setUid] = useState<Number>(0)
+
+    const onClickButton = () => {
+        setIsOpen(true);
+    };
+
+
     const handleClick = () => {
         let data = {
             userId : userId,
             pwd: pwd,
             accessTp: "Z"
         }
+
 
         if(isValidEmail !== true){
             setIdText('이메일 형식을 준수 및 20글자 이하')
@@ -111,9 +127,15 @@ const Login = () => {
 
         if(isValidEmail && isValidPassword){
             login(data).then((res) => {
-                console.log(res)
+                setUid(res.data.data[0].uid)
+                setCookie('userInfo', {uid : uid}, {path : '/'})
+                console.log(cookies.userInfo)
+                setModalMessage('로그인 성공');
+                onClickButton();
             })
         }
+
+        console.log(uid)
     }
 
     // 이메일 검사: '@', '.' 이 둘다 포함될것.
@@ -122,6 +144,7 @@ const Login = () => {
     let specialLetter = pwd && pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
     // 특수문자 1자 이상, 전체 8자 이상일것.    
     let isValidPassword = pwd && specialLetter && pwd.length >= 5 && pwd.length <= 15 && specialLetter >= 1;
+
 
 
     return (
@@ -169,6 +192,7 @@ const Login = () => {
                     <SignUpText>Sign Up</SignUpText>
                 </SignUpBtn>
             </LoginBox>
+            {isOpen && <Modal open={isOpen} message={modalMessage} onClose={() => {setIsOpen(false)}}/>}
         </MainWrap>
     )
 }
