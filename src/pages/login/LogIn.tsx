@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link, useNavigate } from 'react-router-dom';
-import React, {useState, useRef} from "react";
+import React, {useState, useRef, useEffect} from "react";
 import { login } from "../../api/Login/login";
 import Modal from "../../components/common/Modal/Modal";
 import { useCookies } from "react-cookie";
+import { getMyPage } from './../../api/my/my';
 
 const MainWrap = styled.div`
     width : 500px;
@@ -98,8 +99,8 @@ const Login = () => {
     const [modalMessage, setModalMessage] = useState<String>('');
 
     // 쿠키
-    const [cookies, setCookie, removeCookie] = useCookies(['userInfo'])
-    const [uid, setUid] = useState<Number>(0)
+    const [cookies, setCookie, removeCookie] = useCookies(['uid']) //eslint-disable-line
+    const [uid, setUid] = useState<Number>()
 
     const onClickButton = () => {
         setIsOpen(true);
@@ -128,15 +129,17 @@ const Login = () => {
         if(isValidEmail && isValidPassword){
             login(data).then((res) => {
                 setUid(res.data.data[0].uid)
-                setCookie('userInfo', {uid : uid}, {path : '/'})
-                console.log(cookies.userInfo)
-                setModalMessage('로그인 성공');
+                setModalMessage(res && res.data.message);
                 onClickButton();
+                getMyPage().then((res) => console.log(res))
             })
         }
-
-        console.log(uid)
     }
+
+    useEffect(()=>{
+        setCookie('uid', {uid : uid}, {path : '/'});
+    },[uid]) // eslint-disable-line react-hooks/exhaustive-deps
+    
 
     // 이메일 검사: '@', '.' 이 둘다 포함될것.
     let isValidEmail = userId && userId.includes('@') && userId.includes('.') && userId.length <= 20;
@@ -144,7 +147,6 @@ const Login = () => {
     let specialLetter = pwd && pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
     // 특수문자 1자 이상, 전체 8자 이상일것.    
     let isValidPassword = pwd && specialLetter && pwd.length >= 5 && pwd.length <= 15 && specialLetter >= 1;
-
 
 
     return (
