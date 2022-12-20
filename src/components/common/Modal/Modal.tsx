@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from "react";
 import styled from "styled-components";
 import ModalContainer from "./ModalContainer";
 import useOutSideClick from "../../../hooks/useOutSideClick";
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Overlay = styled.div`
     position: fixed;
@@ -16,7 +17,7 @@ const Overlay = styled.div`
 `;
 
 const ModalWrap = styled.div`
-    width: 300px;
+    width: 400px;
     height: fit-content;
     border-radius: 15px;
     background-color: #fff;
@@ -28,10 +29,16 @@ const ModalWrap = styled.div`
 
 const Contents = styled.div`
     margin: 50px 30px;
-    h1 {
+    display : flex;
+    flex-direction : column;
+    justify-content : center;
+    align-items : center;
+
+    h2 {
+        font-family : ${(props) => props.theme.defaultFont.NotoKoreaFont};
+        font-weight : 600;
         font-size: 30px;
-        font-weight: 600;
-        margin-bottom: 60px;
+        margin-bottom: 30px;
     }
     img {
         margin-top: 60px;
@@ -45,7 +52,6 @@ const Button = styled.button`
     background-color: #ababab;
     border-radius: 10px;
     color: white;
-    font-style: italic;
     font-weight: 200;
     cursor: pointer;
     &:hover {
@@ -53,11 +59,18 @@ const Button = styled.button`
     }
 `;
 
-const Modal = ({onClose}: any) => {
+const Modal = ({onClose, message}: any) => {
+    const navigate = useNavigate();
+    const location = useLocation();
     const modalRef = useRef(null);
     
     const handleClose = () => {
-        onClose?.();
+        if(location.pathname === '/signup'){
+            onClose?.();
+            navigate('/login')
+        }else{
+            onClose?.();
+        }
     };
 
     useEffect(() => {
@@ -76,7 +89,7 @@ const Modal = ({onClose}: any) => {
             <Overlay>
                 <ModalWrap ref={modalRef}>
                 <Contents onClick={handleClose}>
-                    <h1>회원가입 완료 🎉 </h1>
+                    <h2>{message}</h2>
                     <Button onClick={handleClose}>Close</Button>
                 </Contents>
                 </ModalWrap>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import React, {useEffect, useState, useRef} from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -94,6 +94,7 @@ const ErrorText = styled.span`
 `
 
 const SignUp = () => {
+    const navigate = useNavigate();
 
     // 이메일 값
     const [userId, setUserId] = useState<String>();
@@ -142,10 +143,11 @@ const SignUp = () => {
     // 특수문자 1자 이상, 전체 8자 이상일것.    
     let isValidPassword = pwd && specialLetter && pwd.length >= 5 && pwd.length <= 15 && specialLetter >= 1;
     // 닉네임 유효성 검사
-    let isValidName =  nickName && nickName === undefined ||  (nickName && nickName.length > 1 && nickName.length <= 5);
+    let isValidName =  (nickName && nickName === undefined) || (nickName && nickName.length > 1 && nickName.length <= 5);
 
     // modal 여부
     const [isOpen, setIsOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState<String>('');
 
     const onClickButton = () => {
         setIsOpen(true);
@@ -182,15 +184,16 @@ const SignUp = () => {
 
         if(isValidEmail && isValidPassword && isValidName){
             signUp(data).then((res)=>{
-                onClickButton();
+                if(res.data.status === 400 && res.data.message === '이메일 또는 닉네임 중복'){
+                    setModalMessage(res && res.data.message);
+                    onClickButton();
+                } else {
+                    setModalMessage(res && res.data.message);
+                    onClickButton();
+                }
             })
         } 
     }
-
-    useEffect(()=>{
-        console.log('isValidName', isValidName)
-        console.log('isValidEmail', isValidEmail)
-    },[isValidName])
 
     return (
         <MainWrap>
@@ -302,7 +305,7 @@ const SignUp = () => {
                 <SubmitBtn onClick={handelSubmit}>
                     <SubmitText>Submit</SubmitText>
                 </SubmitBtn>
-                {isOpen && <Modal open={isOpen} onClose={() => {setIsOpen(false)}}/>}
+                {isOpen && <Modal open={isOpen} message={modalMessage} onClose={() => {setIsOpen(false)}}/>}
             </LoginBox>
 
             

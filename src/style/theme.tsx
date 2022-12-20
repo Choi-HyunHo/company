@@ -4,6 +4,7 @@ export const Theme : DefaultTheme = {
     defaultFont : {
         LogoFont : 'Fredoka One',
         TextFont : 'Noto Sans',
-        KoreaFont : 'Do Hyeon'
+        KoreaFont : 'Do Hyeon',
+        NotoKoreaFont : 'Noto Sans KR'
     }
 }

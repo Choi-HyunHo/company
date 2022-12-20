@@ -6,6 +6,7 @@ declare module 'styled-components' {
             LogoFont : string;
             TextFont : string;
             KoreaFont : string;
+            NotoKoreaFont : string;
         }
     }
 }
