@@ -113,9 +113,7 @@ const Login = () => {
             pwd: pwd,
             accessTp: "Z"
         }
-
         
-
         if(isValidEmail !== true){
             setIdText('이메일 형식을 준수 및 20글자 이하')
             userIdRef.current?.focus();
@@ -134,15 +132,21 @@ const Login = () => {
                 onClickButton();
             })
         }
-        
     }
 
     useEffect(()=>{
-        setCookie('uid', {uid : uid}, {path : '/'});
-        if(uid && uid > 0){
-            getMyPage(cookies).then((res) => console.log(res))
+        if(uid){
+            getMyPage(uid).then(res => console.log(res))
         }
-    },[uid]) // eslint-disable-line react-hooks/exhaustive-deps
+    },[uid])
+
+    // useEffect(()=>{
+    //     setCookie('uid', {uid : uid}, {path : '/'});
+    //     if(uid && uid > 0){
+    //         getMyPage(cookies).then((res) => console.log(res))
+    //     }
+    //     console.log(cookies)
+    // },[uid]) // eslint-disable-line react-hooks/exhaustive-deps
     
 
     // 이메일 검사: '@', '.' 이 둘다 포함될것.
