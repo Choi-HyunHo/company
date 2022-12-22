@@ -99,8 +99,8 @@ const Login = () => {
     const [modalMessage, setModalMessage] = useState<String>('');
 
     // 쿠키
-    const [cookies, setCookie, removeCookie] = useCookies(['uid']) //eslint-disable-line
-    const [uid, setUid] = useState<Number>()
+    // const [cookies, setCookie, removeCookie] = useCookies(['uid']) //eslint-disable-line
+    // const [uid, setUid] = useState<Number>()
 
     const onClickButton = () => {
         setIsOpen(true);
@@ -127,26 +127,12 @@ const Login = () => {
 
         if(isValidEmail && isValidPassword){
             login(data).then((res) => {
-                setUid(res.data.data[0].uid)
+                localStorage.setItem('COM_USERINFO', JSON.stringify(res.data))
                 setModalMessage(res && res.data.message);
                 onClickButton();
             })
         }
     }
-
-    useEffect(()=>{
-        if(uid){
-            getMyPage(uid).then(res => console.log(res))
-        }
-    },[uid])
-
-    // useEffect(()=>{
-    //     setCookie('uid', {uid : uid}, {path : '/'});
-    //     if(uid && uid > 0){
-    //         getMyPage(cookies).then((res) => console.log(res))
-    //     }
-    //     console.log(cookies)
-    // },[uid]) // eslint-disable-line react-hooks/exhaustive-deps
     
 
     // 이메일 검사: '@', '.' 이 둘다 포함될것.
