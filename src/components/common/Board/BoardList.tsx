@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import React, {useEffect, useState} from 'react';
 import { getBoard } from './../../../api/board/board';
+import FadeLoader from 'react-spinners/FadeLoader';
+import { useSelector } from 'react-redux';
+
 
 const MainWrap = styled.div`
     position : absolute;
@@ -49,14 +52,17 @@ const BoardList = () => {
     const [board, setBoard] = useState<any>();
     const {data, isLoading} = useQuery('getBoard', () => getBoard());
 
+    const {uid} = useSelector((state:any) => state.auth)
+
     useEffect(()=>{
         setBoard(data && data.data.data[0].boardList)
-        console.log(board)
-    },[board, isLoading]) // eslint-disable-line react-hooks/exhaustive-deps
+        console.log(board)        
+        console.log(uid)
+    },[uid, board, isLoading]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
     if(isLoading){
-        return <h1>로딩 중 입니다.</h1>
+        return <FadeLoader color="#3399ff" height={20}/>
     } // return 아래에 react hook 두지 말 것
 
 

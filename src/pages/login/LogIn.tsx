@@ -4,6 +4,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import React, {useState, useRef} from "react";
 import { login } from "../../api/Login/login";
 import Modal from "../../components/common/Modal/Modal";
+import { getUserInfo } from "../../api/Login/login";
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from "../../store/auth/authSlice";
+
 
 
 const MainWrap = styled.div`
@@ -81,6 +85,7 @@ const ErrorText = styled.span`
 
 const Login = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [userId, setUserId] = useState<String>('');
     const [pwd, setPwd] = useState<String>('');
@@ -124,6 +129,13 @@ const Login = () => {
             login(data).then((res) => {
                 if(res.status && res.status === 200){
                     localStorage.setItem('COM_USERINFO', JSON.stringify(res.data));
+                    const userInfo = localStorage.getItem('COM_USERINFO')
+                    if(userInfo){
+                        getUserInfo()
+                            .then((res) => dispatch(
+                                loginSuccess((res.data[0]))
+                            ))
+                    }
                     navigate('/');
                 } else {
                     setModalMessage('가입하지 않은 회원 입니다.');
@@ -139,6 +151,8 @@ const Login = () => {
     let specialLetter = pwd && pwd.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
     // 특수문자 1자 이상, 전체 8자 이상일것.    
     let isValidPassword = pwd && specialLetter && pwd.length >= 5 && pwd.length <= 15 && specialLetter >= 1;
+
+    
 
 
     return (

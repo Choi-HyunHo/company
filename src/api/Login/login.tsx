@@ -63,4 +63,5 @@ export const getUserInfo = async () => {
         return response;
     }
     return null;
+
 }

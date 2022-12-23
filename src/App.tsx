@@ -4,7 +4,8 @@ import { ThemeProvider } from 'styled-components';
 import { Theme } from './style/theme';
 import { GlobalStyle } from './style/GlobalStyle';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { CookiesProvider } from 'react-cookie';
+import { Provider } from 'react-redux';
+import store from './store/store';
 
 // page
 import Home from './pages/Home';
@@ -29,14 +30,14 @@ const router = createBrowserRouter([
 function App() {
 	return (
 		<React.Fragment>
-			<CookiesProvider>
+			<Provider store={store}>
 				<QueryClientProvider client={queryClient}>
 					<ThemeProvider theme={Theme}>
 						<GlobalStyle/>
-						<RouterProvider router={router}/>
+							<RouterProvider router={router}/>
 					</ThemeProvider>
 				</QueryClientProvider>
-			</CookiesProvider>
+			</Provider>
 		</React.Fragment>
 	);
 }
