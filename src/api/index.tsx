@@ -5,4 +5,4 @@ export const instance = axios.create({
     timeout : 10000,
 });
 
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;

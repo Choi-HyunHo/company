@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Link, useNavigate } from 'react-router-dom';
-import React, {useState, useRef, useEffect} from "react";
+import React, {useState, useRef} from "react";
 import { login } from "../../api/Login/login";
 import Modal from "../../components/common/Modal/Modal";
-import { useCookies } from "react-cookie";
-import { getMyPage } from './../../api/my/my';
+
 
 const MainWrap = styled.div`
     width : 500px;
@@ -94,9 +93,6 @@ const Login = () => {
     const [idText, setIdText] = useState<String>('');
     const [pwdText, setPwdText] = useState<String>('');
 
-    // 쿠키
-    // const [cookies, setCookie, removeCookie] = useCookies(['uid']) //eslint-disable-line
-    // const [uid, setUid] = useState<Number>()
 
     // 모달
     const [isOpen, setIsOpen] = useState(false);
@@ -137,7 +133,6 @@ const Login = () => {
         }
     }
     
-
     // 이메일 검사: '@', '.' 이 둘다 포함될것.
     let isValidEmail = userId && userId.includes('@') && userId.includes('.') && userId.length <= 20;
     // 비밀번호 특수문자 검사를 위한 정규식표현.
