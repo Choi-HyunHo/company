@@ -57,7 +57,7 @@ const BoardList = () => {
     useEffect(()=>{
         setBoard(data && data.data.data[0].boardList)
         console.log(board)        
-        console.log(uid)
+        console.log('redux' , uid)
     },[uid, board, isLoading]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
