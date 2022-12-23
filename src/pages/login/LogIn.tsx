@@ -94,18 +94,17 @@ const Login = () => {
     const [idText, setIdText] = useState<String>('');
     const [pwdText, setPwdText] = useState<String>('');
 
-    // modal 여부
-    const [isOpen, setIsOpen] = useState(false);
-    const [modalMessage, setModalMessage] = useState<String>('');
-
     // 쿠키
     // const [cookies, setCookie, removeCookie] = useCookies(['uid']) //eslint-disable-line
     // const [uid, setUid] = useState<Number>()
 
+    // 모달
+    const [isOpen, setIsOpen] = useState(false);
+    const [modalMessage, setModalMessage] = useState<String>('');
+
     const onClickButton = () => {
         setIsOpen(true);
     };
-
 
     const handleClick = () => {
         let data = {
@@ -127,9 +126,13 @@ const Login = () => {
 
         if(isValidEmail && isValidPassword){
             login(data).then((res) => {
-                localStorage.setItem('COM_USERINFO', JSON.stringify(res.data))
-                setModalMessage(res && res.data.message);
-                onClickButton();
+                if(res.status && res.status === 200){
+                    localStorage.setItem('COM_USERINFO', JSON.stringify(res.data));
+                    navigate('/');
+                } else {
+                    setModalMessage('가입하지 않은 회원 입니다.');
+                    onClickButton();
+                }
             })
         }
     }
