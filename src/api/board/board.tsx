@@ -9,3 +9,13 @@ export const getBoard = async() => {
         })
     return response;
 }
+
+// 게시글 상세 조회
+export const getDetailBoard = async(bid:any, pid:any) => {
+    const url = `board/${bid}/${pid}`;
+    const response = await instance.get(url)
+        .then((response) => {
+            return response;
+        })
+    return response;
+}

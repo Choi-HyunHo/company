@@ -8,6 +8,7 @@ import UpBtn from '../../icon/UpBtn';
 import DownBtn from '../../icon/DownBtn';
 import Share from '../../icon/Share';
 import Comment from '../../icon/Comment';
+import { useNavigate } from 'react-router-dom';
 
 
 const MainWrap = styled.div`
@@ -31,6 +32,7 @@ const UpDownBox = styled.div`
     min-height : 200px;
     justify-content : center;
     align-items : center;
+    background-color : #F8F9FA;
 `
 
 const LikeCount = styled.span`
@@ -69,6 +71,7 @@ const Line = styled.div`
 `
 
 const BoardList = () => {
+    const navigate = useNavigate();
     const [board, setBoard] = useState<any>();
     const {data, isLoading} = useQuery('getBoard', () => getBoard());
 
@@ -76,9 +79,12 @@ const BoardList = () => {
 
     useEffect(()=>{
         setBoard(data && data.data.data[0].boardList)
-        console.log(board)        
-        console.log('redux' , uid)
-    },[uid, board, isLoading]) // eslint-disable-line react-hooks/exhaustive-deps
+        console.log(board);
+    },[isLoading]) // eslint-disable-line react-hooks/exhaustive-deps
+
+    const handleDetail = (bid:Number, pid:Number) => {
+        navigate(`/DetailBoard/${bid}/${pid}`)
+    }
 
 
     if(isLoading){
@@ -105,7 +111,7 @@ const BoardList = () => {
                                 </div>
                                 <BoardSpan>{i.regDt.substr(0,10)}</BoardSpan>
                             </BoardCategory>
-                                <div style={{display : 'flex', flexDirection : 'column'}}>
+                                <div onClick={() => handleDetail(i.bid, i.pid)} style={{display : 'flex', flexDirection : 'column'}}>
                                     <BoardInfoBottom>
                                         <BoardSpan>{i.contents}</BoardSpan>
                                         <div style={{display : 'flex', justifyContent : 'space-around', marginTop : '20px'}}>

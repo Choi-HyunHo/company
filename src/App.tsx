@@ -14,6 +14,7 @@ import Home from './pages/Home';
 import Login from './pages/login/LogIn';
 import ErrorPage from './pages/ErrorPage';
 import SignUp from './pages/login/SignUp';
+import DetailBoard from './pages/board/DetailBoard';
 
 const queryClient = new QueryClient();
 const persistor = persistStore(store);
@@ -25,7 +26,8 @@ const router = createBrowserRouter([
 		errorElement : <ErrorPage/>,
 		children : [
 			{ path : '/login', element : <Login/>},
-			{ path : '/signup', element : <SignUp/>}
+			{ path : '/signup', element : <SignUp/>},
+			{ path : '/DetailBoard/:bid/:pid', element : <DetailBoard/>}
 		]
 	}
 ])
