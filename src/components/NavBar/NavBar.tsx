@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import SignUp from "../common/Button/SignUp";
 import Login from '../common/Button/LogIn';
+import LogOut from "../common/Button/LogOut";
 import { Link } from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 const MainWrap = styled.div`
     width : 100%;
@@ -19,6 +21,7 @@ const LogoTitle = styled.span`
 `
 
 const NavBar = () => {
+    const {uid} = useSelector(((state:any) => state.auth))
 
     return (
         <MainWrap>
@@ -30,7 +33,7 @@ const NavBar = () => {
             <div style={{display: 'flex'}}>
                 <SignUp/>
                 <div style={{marginRight :'20px'}}></div>
-                <Login/>
+                {uid && uid > 0 ? <LogOut/> : <Login/>}
                 <div style={{marginRight :'100px'}}></div>
             </div>
         </MainWrap>
