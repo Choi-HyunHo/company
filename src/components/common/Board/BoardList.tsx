@@ -103,16 +103,16 @@ const BoardList = () => {
         }
     },[y, handleY])
 
+    // 게시물 클릭 시 들어가는 값
     const handleClick = () => {
         dispatch(scrollContainer(y))
-        console.log('게시물 클릭 시 들어가는 값', scrollBox)
     }
 
-    useEffect(()=>{
-        if(container){
-            container.scrollTo(0, scrollBox);
-        }
-    },[scrollBox])
+    // useEffect(()=>{
+    //     if(container){
+    //         container.scrollTo(0, scrollBox);
+    //     }
+    // },[scrollBox])
 
 
     if(isLoading){

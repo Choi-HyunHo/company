@@ -22,15 +22,12 @@ const MainView = () => {
     const mainRef = useRef<any>();
     const {userScroll} = useSelector((state:any) => state.auth) // 변하는 스크롤 값
     const {scrollBox} = useSelector((state:any) => state.auth) // 페이지 로딩 시 이동해야 하는 스크롤 값
+    let container = document.querySelector('#main') as HTMLElement;
+
 
     useEffect(()=>{
-        console.log('스크롤 값', userScroll);
-    },[userScroll])
-
-    useEffect(()=>{
-        console.log('페이지 렌더링 시 이동 해야 할 위치', scrollBox)
-    },[])
-
+        setTimeout(() => container && container.scrollTo(0, scrollBox),100)
+    },[location])
 
     return (
         <MainWrap id="main" ref={mainRef}>
