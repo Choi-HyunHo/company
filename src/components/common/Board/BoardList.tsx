@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import { getBoard } from './../../../api/board/board';
 import FadeLoader from 'react-spinners/FadeLoader';
-import { useSelector } from 'react-redux';
 import UpBtn from '../../icon/UpBtn';
 import DownBtn from '../../icon/DownBtn';
 import Share from '../../icon/Share';
@@ -74,22 +73,41 @@ const BoardList = () => {
     const navigate = useNavigate();
     const [board, setBoard] = useState<any>();
     const {data, isLoading} = useQuery('getBoard', () => getBoard());
-
-    const {uid} = useSelector((state:any) => state.auth)
+    const [y, setY] = useState<any>();
 
     useEffect(()=>{
         setBoard(data && data.data.data[0].boardList)
-        console.log(board);
     },[isLoading]) // eslint-disable-line react-hooks/exhaustive-deps
 
     const handleDetail = (bid:Number, pid:Number) => {
         navigate(`/DetailBoard/${bid}/${pid}`)
     }
 
+    let example = document.querySelector('#main') as HTMLElement;
+
+    const handleY = useCallback(() => {
+        if(example){
+            setY(example.scrollTop)
+        }
+    },[y, example])
+
+    useEffect(()=>{
+        if(example){
+            setY(example.scrollTop)
+            example.addEventListener('scroll',handleY)
+        }
+        console.log(y)
+    },[y, handleY])
+
+
+    const handleClick = () => {
+        sessionStorage.setItem("scrollPosition", JSON.stringify(y));
+    }
 
     if(isLoading){
         return <FadeLoader color="#3399ff" height={20}/>
     } // return 아래에 react hook 두지 말 것
+
 
 
     return (
@@ -111,7 +129,7 @@ const BoardList = () => {
                                 </div>
                                 <BoardSpan>{i.regDt.substr(0,10)}</BoardSpan>
                             </BoardCategory>
-                                <div onClick={() => handleDetail(i.bid, i.pid)} style={{display : 'flex', flexDirection : 'column'}}>
+                                <div onClick={() => {handleDetail(i.bid, i.pid); handleClick()}} style={{display : 'flex', flexDirection : 'column'}}>
                                     <BoardInfoBottom>
                                         <BoardSpan>{i.contents}</BoardSpan>
                                         <div style={{display : 'flex', justifyContent : 'space-around', marginTop : '20px'}}>
