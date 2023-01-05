@@ -10,6 +10,8 @@ type StateType = {
     accessTp : string;
     locationYn : number;
     userType : string;
+    userScroll : number;
+    scrollBox : number;
 }
 
 // initalState 생성
@@ -21,7 +23,9 @@ const initialState:StateType = {
     birthday: "",
     accessTp: "",
     locationYn: 1,
-    userType: ""
+    userType: "",
+    userScroll : 0,
+    scrollBox : 0
 }
 
 export const authSlice = createSlice({
@@ -40,6 +44,14 @@ export const authSlice = createSlice({
             state.locationYn =  locationYn;
             state.userType = userType;
         },
+
+        scrollPoint : (state:StateType, action) => {
+            state.userScroll = action.payload;
+        },
+
+        scrollContainer : (state:StateType, action) => {
+            state.scrollBox = action.payload;
+        },
     }
 })
 
@@ -47,7 +59,9 @@ export const authSlice = createSlice({
 const { actions, reducer } = authSlice;
 
 export const {
-    loginSuccess
+    loginSuccess,
+    scrollPoint,
+    scrollContainer
 } = actions;
 
 export default reducer;

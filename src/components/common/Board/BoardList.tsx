@@ -8,6 +8,8 @@ import DownBtn from '../../icon/DownBtn';
 import Share from '../../icon/Share';
 import Comment from '../../icon/Comment';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { scrollContainer, scrollPoint } from '../../../store/auth/authSlice';
 
 
 const MainWrap = styled.div`
@@ -71,9 +73,11 @@ const Line = styled.div`
 
 const BoardList = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [board, setBoard] = useState<any>();
     const {data, isLoading} = useQuery('getBoard', () => getBoard());
     const [y, setY] = useState<any>();
+    const {scrollBox} = useSelector((state:any) => state.auth)
 
     useEffect(()=>{
         setBoard(data && data.data.data[0].boardList)
@@ -83,26 +87,33 @@ const BoardList = () => {
         navigate(`/DetailBoard/${bid}/${pid}`)
     }
 
-    let example = document.querySelector('#main') as HTMLElement;
+    let container = document.querySelector('#main') as HTMLElement;
 
     const handleY = useCallback(() => {
-        if(example){
-            setY(example.scrollTop)
+        if(container){
+            setY(container.scrollTop)
         }
-    },[y, example])
+    },[y, container])
 
     useEffect(()=>{
-        if(example){
-            setY(example.scrollTop)
-            example.addEventListener('scroll',handleY)
+        if(container){
+            setY(container.scrollTop)
+            dispatch(scrollPoint(container.scrollTop))
+            container.addEventListener('scroll', handleY)
         }
-        console.log(y)
     },[y, handleY])
 
-
     const handleClick = () => {
-        sessionStorage.setItem("scrollPosition", JSON.stringify(y));
+        dispatch(scrollContainer(y))
+        console.log('게시물 클릭 시 들어가는 값', scrollBox)
     }
+
+    useEffect(()=>{
+        if(container){
+            container.scrollTo(0, scrollBox);
+        }
+    },[scrollBox])
+
 
     if(isLoading){
         return <FadeLoader color="#3399ff" height={20}/>
@@ -113,7 +124,7 @@ const BoardList = () => {
     return (
         <MainWrap>
             {board && board.map((i:any, index:any) => ( 
-                <BoardContainer key={index}>
+                <BoardContainer  id="main" key={index}>
                     <div style={{display : 'flex'}}>
                         <UpDownBox>
                             <UpBtn/>

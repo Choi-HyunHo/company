@@ -20,13 +20,13 @@ const LogoTitle = styled.span`
     font-size : 24px;
 `
 
-const NavBar = ({handleClick}:any) => {
+const NavBar = () => {
     const {uid} = useSelector(((state:any) => state.auth))
 
     return (
         <MainWrap>
             <div style={{marginLeft : '30px'}}>
-                <Link to='/' onClick={handleClick}>
+                <Link to='/'>
                     <LogoTitle>COMPANY</LogoTitle>
                 </Link>
             </div>

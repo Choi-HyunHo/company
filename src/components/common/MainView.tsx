@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { Outlet, useLocation } from 'react-router-dom';
 import BoardList from './Board/BoardList';
 import {useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 
 const MainWrap = styled.div`
     width : calc(100vw - 270px);
@@ -19,26 +20,15 @@ const MainWrap = styled.div`
 const MainView = () => {
     const location = useLocation();
     const mainRef = useRef<any>();
-    let scrollPosition:any;
-    let testValue = document.querySelector('#main') as HTMLElement;
-
-    // const handleScrollPosition = () => {
-    //     scrollPosition = sessionStorage.getItem("scrollPosition");
-
-    //     if (scrollPosition) {
-    //         window.scrollTo(0, parseInt(scrollPosition));
-    //         sessionStorage.removeItem("scrollPosition");
-    //     }
-    // }
+    const {userScroll} = useSelector((state:any) => state.auth) // 변하는 스크롤 값
+    const {scrollBox} = useSelector((state:any) => state.auth) // 페이지 로딩 시 이동해야 하는 스크롤 값
 
     useEffect(()=>{
-        // handleScrollPosition();
-        if(scrollPosition){
-            scrollPosition = sessionStorage.getItem("scrollPosition");
-            console.log('scrollPosition', typeof scrollPosition)
-            testValue.scrollTo(0, parseInt(scrollPosition));
-        }
+        console.log('스크롤 값', userScroll);
+    },[userScroll])
 
+    useEffect(()=>{
+        console.log('페이지 렌더링 시 이동 해야 할 위치', scrollBox)
     },[])
 
 
