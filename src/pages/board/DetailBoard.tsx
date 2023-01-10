@@ -6,6 +6,8 @@ import UpBtn from "../../components/icon/UpBtn";
 import DownBtn from "../../components/icon/DownBtn";
 import Comment from "../../components/icon/Comment";
 import styled from "styled-components";
+import Comments from "../../components/common/Comment/Comments";
+import React from "react";
 
 const MainWrap = styled.div`
     position : absolute;
@@ -66,14 +68,17 @@ const Line = styled.div`
     margin : 0px 10px;
 `
 
+const CommentsBox = styled.div`
+    width : 300px;
+    background-color: white;
+`
+
 const DetailBoard = () => {
     let params = useParams<any>();
-
     const {data} = useQuery<any>(['getDetailBoard', params.bid, params.pid], () => getDetailBoard(params.bid, params.pid));
     
-    console.log(data)
-    
     return (
+        <React.Fragment>
             <MainWrap>
                 {data && 
                 <BoardContainer>
@@ -106,6 +111,8 @@ const DetailBoard = () => {
                 </BoardContainer>
                 }
             </MainWrap>
+            <Comments/>
+        </React.Fragment>
         
     )
 }
