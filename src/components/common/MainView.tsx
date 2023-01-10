@@ -20,14 +20,14 @@ const MainWrap = styled.div`
 const MainView = () => {
     const location = useLocation();
     const mainRef = useRef<any>();
-    const {userScroll} = useSelector((state:any) => state.auth) // 변하는 스크롤 값
+    // const {userScroll} = useSelector((state:any) => state.auth) // 변하는 스크롤 값
     const {scrollBox} = useSelector((state:any) => state.auth) // 페이지 로딩 시 이동해야 하는 스크롤 값
     let container = document.querySelector('#main') as HTMLElement;
 
 
     useEffect(()=>{
         setTimeout(() => container && container.scrollTo(0, scrollBox),100)
-    },[location])
+    },[location]) // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <MainWrap id="main" ref={mainRef}>
