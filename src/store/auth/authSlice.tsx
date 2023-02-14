@@ -34,8 +34,9 @@ export const authSlice = createSlice({
     reducers:{
         loginSuccess: (state:StateType, action) => {
             const {uid, userId, nickname, gender, birthday, accessTp,
-            locationYn, userType} = action.payload;
-            state.uid = uid;
+            locationYn, userType} = action.payload; // 구조분해 할당 개념..?
+            // state.uid = uid; 위의 전체 데이터가 들어온다 객체 형태로
+            state. uid = uid; // uid 값 하나만 받아온다 action.payload 에서
             state.userId = userId;
             state.nickname = nickname;
             state.gender = gender;
