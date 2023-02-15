@@ -77,8 +77,6 @@ const BoardList = () => {
     const [board, setBoard] = useState<any>();
     const {data, isLoading} = useQuery('getBoard', () => getBoard());
     const [y, setY] = useState<any>();
-    const {scrollBox, uid} = useSelector((state:any) => state.auth)
-    console.log(uid)
 
     useEffect(()=>{
         setBoard(data && data.data.data[0].boardList)
@@ -109,11 +107,6 @@ const BoardList = () => {
         dispatch(scrollContainer(y))
     }
 
-    // useEffect(()=>{
-    //     if(container){
-    //         container.scrollTo(0, scrollBox);
-    //     }
-    // },[scrollBox])
 
 
     if(isLoading){

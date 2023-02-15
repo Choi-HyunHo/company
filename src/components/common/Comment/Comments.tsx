@@ -33,7 +33,7 @@ const Comments = () => {
                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
             ></Input>
             <button onClick={onCreate}>입력</button>
-
+            {comment && comment.map((item : any, index : number) => <div>{item}</div>)}
         </MainWrap>        
     )
 }
