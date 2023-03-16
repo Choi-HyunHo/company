@@ -133,7 +133,7 @@ const Login = () => {
                     if(userInfo){
                         getUserInfo()
                             .then((res) => dispatch(
-                                loginSuccess(res.data[0])
+                                loginSuccess(res.data[0].myInfo)
                             ))
                     }
                     navigate('/');
