@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const MainWrap = styled.div`
@@ -10,19 +10,18 @@ const Input = styled.input`
     padding : 16px 20px;
     width : 650px;
     border : none;
+    border-top : 1px solid #DAE0E6;
 `
 
 const Comments = () => {
     const [value, setValue] = useState<any>();
     const [comment, setComment] = useState<any>([]);
-    const dataId = useRef(0);
 
-    useEffect(() => {
-        console.log(comment)
-    }, [comment])
 
-    const onCreate = () => {
-        setComment(() => [value, ...comment]);
+    const onCreate = (e : any) => {
+        if(e.key === 'Enter' || e.key === 13){
+            setComment(() => [value, ...comment]);
+        }
     }
 
     return (
@@ -31,8 +30,8 @@ const Comments = () => {
                 type='text' 
                 placeholder="게시물에 대한 소감을 입력 해주세요!" 
                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
+                onKeyPress={(e) => onCreate(e)}
             ></Input>
-            <button onClick={onCreate}>입력</button>
             {comment && comment.map((item : any, index : number) => <div>{item}</div>)}
         </MainWrap>        
     )

@@ -68,11 +68,6 @@ const Line = styled.div`
     margin : 0px 10px;
 `
 
-const CommentsBox = styled.div`
-    width : 300px;
-    background-color: white;
-`
-
 const DetailBoard = () => {
     let params = useParams<any>();
     const {data} = useQuery<any>(['getDetailBoard', params.bid, params.pid], () => getDetailBoard(params.bid, params.pid));
@@ -108,10 +103,11 @@ const DetailBoard = () => {
                                 </div>
                         </BoardInfoTop>
                     </div>
+                    <Comments/>
                 </BoardContainer>
                 }
             </MainWrap>
-            <Comments/>
+            
         </React.Fragment>
         
     )
